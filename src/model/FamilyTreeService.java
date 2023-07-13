@@ -1,9 +1,13 @@
 package model;
 
 import model.familyTree.FamilyTree;
+import model.human.Gender;
 import model.human.Human;
+import model.save.FileHandlerForFamilyTree;
 import model.save.WritableForFamilyTree;
-import model.save.base.Writable;
+
+import java.time.LocalDate;
+import java.util.List;
 
 public class FamilyTreeService {
     private WritableForFamilyTree writable;
@@ -13,19 +17,21 @@ public class FamilyTreeService {
         this.activeTree = activeTree;
     }
 
-    public FamilyTreeService(){
-        activeTree = new FamilyTree<>();
+    public FamilyTreeService() {
+        load();
+        this.setWritable(new FileHandlerForFamilyTree());
+        activeTree = writable.read();
     }
 
-    public boolean save(){
-        if (writable == null){
+    public boolean save() {
+        if (writable == null) {
             return false;
         }
         return writable.save(activeTree);
     }
 
-    public boolean load(){
-        if (writable == null){
+    public boolean load() {
+        if (writable == null) {
             return false;
         }
         activeTree = writable.read();
@@ -33,33 +39,49 @@ public class FamilyTreeService {
     }
 
     //TODO реализовать методы добавления нового человека
-    public String addHuman(String name, String gender, String birthDate, String deathDate, String father, String mother){
+    public String addHuman(String name, String gender, String birthDate, String deathDate, String father, String mother) {
         Human humanFather = null;
-        if (!father.equals("")){
-//            humanFather = activeTree.getByName(father);
+        Human humanMother = null;
+
+        List<Human> fatherList = activeTree.getByName(father);
+        List<Human> motherList = activeTree.getByName(mother);
+
+        if (!father.equals("") && !fatherList.isEmpty()) {
+            humanFather = activeTree.getByName(father).get(0);
         }
-        if (humanFather == null){
-            return "отец не найден";
+
+        if (!mother.equals("") && !motherList.isEmpty()) {
+            humanMother = activeTree.getByName(father).get(0);
         }
-//        LocalDate humanBirthDate = LocalDate.parse(birthDate);
-//        Human human = new Human();
-//        activeTree.add(human);
-        return "Человек успешно добавлен в дерево";
+
+        //LocalDate humanBirthDate = LocalDate.parse(birthDate);
+        //LocalDate humanDeathDate = LocalDate.parse(deathDate);
+
+        Human human = new Human(name, Gender.Male, LocalDate.of(0, 1, 1));
+        activeTree.add(human);
+
+        return "Человек добавлен";
     }
 
     public void setWritable(WritableForFamilyTree writable) {
         this.writable = writable;
     }
 
-    public void sortByName(){
+    public String sortByName() {
         activeTree.sortByName();
+        return "Список отсортирован по имени: " + getHumanList();
     }
 
-    public void sortByDeathDate(){
+    public void sortByDeathDate() {
         activeTree.sortByDeathDate();
     }
 
     public String getHumanList() {
         return activeTree.getInfo();
+    }
+
+    public String sortByDeath() {
+        activeTree.sortByDeathDate();
+        return "Список отсортирован по дате смерти: " + getHumanList();
     }
 }

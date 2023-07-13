@@ -1,16 +1,20 @@
 package view;
 
-import view.comands.GetHumanList;
+import view.comands.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Menu {
-    private List<GetHumanList> list;
+    private List<Command> list;
 
     public Menu(Console console) {
         list = new ArrayList<>();
         list.add(new GetHumanList(console));
+        list.add(new AddHuman(console));
+        list.add(new Finish(console));
+        list.add(new SortedByName(console));
+        list.add(new SortedByDeath(console));
     }
 
     public String print(){

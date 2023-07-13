@@ -2,18 +2,14 @@ package view.comands;
 
 import view.Console;
 
-public class GetHumanList {
-    private Console console;
+public class GetHumanList extends Command{
 
     public GetHumanList(Console console) {
-        this.console = console;
+        super(console, "Получить список");
     }
 
-    public String getDescription(){
-        return "Получить список людей";
-    }
-
-    public void execute(){
-        console.getHumanList();
+    @Override
+    public void execute() {
+        super.getConsole().getHumanList();;
     }
 }

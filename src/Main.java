@@ -7,7 +7,10 @@ import model.save.base.FileHandler;
 import view.Console;
 import view.View;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -35,6 +38,7 @@ public class Main {
         FamilyTreeService service = new FamilyTreeService(tree);
         service.setWritable(new FileHandlerForFamilyTree());
         service.save();
+        //System.out.println(service.getHumanList());
 
         View view = new Console();
         view.start();

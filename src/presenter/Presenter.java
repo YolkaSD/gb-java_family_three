@@ -13,13 +13,23 @@ public class Presenter {
     }
 
 
-//    public void addHuman(String name) {
-//        String answer = service.addHuman(name);
-//        view.print(answer);
-//    }
+    public void addHuman(String name, String gender, String dateBirth, String deathDate, String father, String mother) {
+        String answer = service.addHuman(name, gender, dateBirth, deathDate, father, mother);
+        view.print(answer);
+    }
 
     public void getHumanList() {
         String answer = service.getHumanList();
+        view.print(answer);
+    }
+
+    public void sortedByName() {
+        String answer = service.sortByName();
+        view.print(answer);
+    }
+
+    public void sortedByAge() {
+        String answer = service.sortByDeath();
         view.print(answer);
     }
 }
